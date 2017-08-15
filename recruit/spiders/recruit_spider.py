@@ -29,18 +29,18 @@ class RecruitSpider(scrapy.Spider):
         job_salary=[]
         last_update_time=[]
 
-        is_processed_link.append(response.url)
+        RecruitSpider.is_processed_link.append(response.url)
         page_links = bsobj.find_all('a',{'href':re.compile(r'http://sou.zhaopin.com/jobs/searchresult.ashx?.+p.\d+')})
         # 爬去其他页面的内容. 演示时不实现
-        """
+        #"""
         for item in page_links:
-            if item in is_processed_link:
+            if item in RecruitSpider.is_processed_link:
                 pass
             else:
-                is_processed_link.append(item)
-                yield Request(url= item['href'], callback = self.parse)
-        """
-
+                RecruitSpider.is_processed_link.append(item)
+                #yield Request(url= item['href'], callback = self.parse)
+        #"""
+        print(RecruitSpider.is_processed_link)
         job_details = bsobj.find_all('a',{'href':re.compile(r'http://jobs.zhaopin.com/.*.htm')})
 
         for item in job_details: # for the post content
@@ -72,7 +72,6 @@ class RecruitSpider(scrapy.Spider):
         job_info = bsobj.find_all('ul',{'class':'terminal-ul clearfix'})
         job_description = re.split(r'\n',job_info[0].text)
 
-        print(response.url,"url")
         item = Jobdetail()
 
         from scrapy.shell import inspect_response
