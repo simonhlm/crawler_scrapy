@@ -1,0 +1,6 @@
+﻿#ingore files
+__pycache__
+*.db
+*.csv
+*.log
+*.bak

@@ -6,13 +6,16 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import codecs
+import csv
 
-
-class RecuritPipeline(object):
+class RecruitPipeline(object):
 
     def process_item(self, item, spider):
         with codecs.open('result.csv','a',encoding='utf-8') as self.f:
-            for x in item:
-                self.f.write(item[x])
-            self.f.write('\n')
+            headers = [ k for k in item]
+            my_writer = csv.DictWriter(self.f, fieldnames = headers)
+            #for x in item:
+            my_writer.writerow(item)
+                #self.f.write(item[x])
+            #self.f.write('\n')
         return item

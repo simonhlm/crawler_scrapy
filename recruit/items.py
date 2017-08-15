@@ -8,7 +8,7 @@
 import scrapy
 
 
-class RecuritItem(scrapy.Item):
+class RecruitItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     job_href=scrapy.Field()
@@ -20,6 +20,9 @@ class RecuritItem(scrapy.Item):
     last_update_time=scrapy.Field()
 
 class Jobdetail(scrapy.Item):
+
+    job_name=scrapy.Field()
+    job_href=scrapy.Field()
     job_details=scrapy.Field()
     job_description=scrapy.Field()
     job_salary=scrapy.Field()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for recurit project
+# Scrapy settings for recruit project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,17 +9,19 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'recurit'
+BOT_NAME = 'recruit'
 
-SPIDER_MODULES = ['recurit.spiders']
-NEWSPIDER_MODULE = 'recurit.spiders'
+SPIDER_MODULES = ['recruit.spiders']
+NEWSPIDER_MODULE = 'recruit.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'recurit (+http://www.yourdomain.com)'
+#USER_AGENT = 'recruit (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
+
+CLOSESPIDER_TIMEOUT = 30
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -64,13 +66,13 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'recurit.middlewares.RecuritSpiderMiddleware': 543,
+#    'recruit.middlewares.recruitSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'recurit.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'recruit.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -82,7 +84,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'recurit.pipelines.RecuritPipeline': 300,
+    'recruit.pipelines.RecruitPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

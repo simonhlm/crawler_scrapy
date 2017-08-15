@@ -5,18 +5,21 @@ import re
 
 from bs4 import BeautifulSoup
 from scrapy.http import Request
-from recurit.items import RecuritItem, Jobdetail
+from recruit.items import RecruitItem, Jobdetail
+from scrapy.spiders.crawl import Rule, CrawlSpider
+from scrapy.linkextractors import LinkExtractor
 
-class RecuritSpider(scrapy.Spider):
-    """docstring fRecuritSpider"""
-    name = 'recurit'
+class RecruitSpider(scrapy.Spider):
+    """docstring fRecruitSpider"""
+    name = 'recruit'
     allowed_domains = ['zhaopin.com']
     start_urls = ['http://sou.zhaopin.com/jobs/searchresult.ashx?jl=成都&bj=160000&p=0']
+    is_processed_link = []
 
     def parse(self, response):
 
         bsobj = BeautifulSoup(response.body,'html.parser')
-        r_item = RecuritItem()
+        r_item = RecruitItem()
 
         job_href=[]
         job_name=[]
@@ -26,11 +29,21 @@ class RecuritSpider(scrapy.Spider):
         job_salary=[]
         last_update_time=[]
 
+        is_processed_link.append(response.url)
+        page_links = bsobj.find_all('a',{'href':re.compile(r'http://sou.zhaopin.com/jobs/searchresult.ashx?.+p.\d+')})
+        # 爬去其他页面的内容. 演示时不实现
+        """
+        for item in page_links:
+            if item in is_processed_link:
+                pass
+            else:
+                is_processed_link.append(item)
+                yield Request(url= item['href'], callback = self.parse)
+        """
+
         job_details = bsobj.find_all('a',{'href':re.compile(r'http://jobs.zhaopin.com/.*.htm')})
 
         for item in job_details: # for the post content
-            #thread_href.append(item['href'])
-            #thread_id.append(re.search(r'thread-(\d*)-',item['href']).group(1))
             job_href.append(item['href'])
             job_name.append(item.text)
             yield Request(url = item['href'] , callback = self.parse_details)
@@ -59,8 +72,13 @@ class RecuritSpider(scrapy.Spider):
         job_info = bsobj.find_all('ul',{'class':'terminal-ul clearfix'})
         job_description = re.split(r'\n',job_info[0].text)
 
+        print(response.url,"url")
         item = Jobdetail()
 
+        from scrapy.shell import inspect_response
+        #inspect_response(response,self)
+        item['job_name'] = response.xpath('/html/body/div[5]/div[1]/div[1]/h1/text()').extract()[0]
+        item['job_href'] = response.url
         item['job_salary'] = re.split(r'：',job_description[1])[1]
         item['job_location'] = re.split(r'：',job_description[2])[1]
         item['job_publish_date'] = re.split(r'：',job_description[3])[1]
