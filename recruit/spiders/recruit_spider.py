@@ -13,7 +13,9 @@ class RecruitSpider(scrapy.Spider):
     """docstring fRecruitSpider"""
     name = 'recruit'
     allowed_domains = ['zhaopin.com']
-    start_urls = ['http://sou.zhaopin.com/jobs/searchresult.ashx?jl=成都&bj=160000&p=0']
+    start_urls = ['http://sou.zhaopin.com/jobs/searchresult.ashx?jl=成都&bj=160000&p=0',
+    'http://sou.zhaopin.com/jobs/searchresult.ashx?jl=北京&bj=160000&p=0'
+    ]
     is_processed_link = []
 
     def parse(self, response):
